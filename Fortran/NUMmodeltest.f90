@@ -7,8 +7,8 @@ program NUMmodeltest
   !call setupGeneric( (/0.1d0, 1.0d0 /) )
   !call setupGeneralistsCopepod()
   !call setupGeneralistsOnly()
-  !call setupGeneralistsOnly_csp()
-  call setupGeneralistsOnly()
+  call setupGeneralistsOnly_csp()
+  !call setupGeneralistsOnly()
   allocate(u0(nGrid))
   allocate(u00(nGrid))
   u00(1) = 150.d0
@@ -18,7 +18,7 @@ program NUMmodeltest
   end do
   !call calcDerivatives(u, 100.d0, 0.d0)
   u0=u00
-  call simulateChemostatEuler(u0, 100.d0, 150.d0, 0.05d0, 300.d0, 0.01d0)
+  call simulateChemostatEuler(u0, 500.d0, 150.d0, 0.05d0, 300.d0, 0.01d0)
   call printU(u0)
   !call calcDerivatives(usave(size(usave,1),:), 100.d0, 0.1d0)
   !call printRates(m, rates)

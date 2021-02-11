@@ -23,7 +23,7 @@ if bUseFortran
         unloadlibrary('NUMmodel')
     end
     loadNUMmodelLibrary();
-    calllib(loadNUMmodelLibrary(), 'f_setupgeneric', int32(length(mAdult)), mAdult);
+    calllib(loadNUMmodelLibrary(), 'f_setupgeneralistsonly')%, int32(length(mAdult)), mAdult);
 end
 %
 % Simulate
@@ -34,4 +34,5 @@ toc
 %
 % Plot
 %
+figure
 plotSimulation(sim)

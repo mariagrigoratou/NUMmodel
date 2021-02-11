@@ -1,6 +1,6 @@
 module NUMmodel_wrap
   use iso_c_binding, only: c_double, c_int
-  use NUMmodel, only:  setupGeneralistsOnly, setupGeneralistsCopepod, &
+  use NUMmodel, only:  setupGeneralistsOnly,setupGeneralistsOnly_csp, setupGeneralistsCopepod, &
        setupGeneric, calcderivatives, rates, &
        simulateChemostatEuler, simulateEuler
 
@@ -9,7 +9,7 @@ module NUMmodel_wrap
 contains
 
   subroutine f_setupGeneralistsOnly() bind(c)
-    call setupGeneralistsOnly()
+    call setupGeneralistsOnly_csp()
   end subroutine f_setupGeneralistsOnly
 
   subroutine f_setupGeneralistsCopepod() bind(c)
@@ -22,13 +22,13 @@ contains
 
     call setupGeneric(mAdult)
   end subroutine f_setupGeneric
-  
+
   subroutine f_calcDerivatives(nGrid, u, L, dt, dudt) bind(c)
     integer(c_int), intent(in), value:: nGrid
     real(c_double), intent(in), value:: L, dt
     real(c_double), intent(in):: u(nGrid)
     real(c_double), intent(out):: dudt(nGrid)
-    
+
     call calcDerivatives(u, L, dt)
     dudt = rates%dudt
   end subroutine f_calcDerivatives
@@ -37,18 +37,16 @@ contains
     integer(c_int), intent(in), value:: nGrid
     real(c_double), intent(inout):: u(nGrid)
     real(c_double), intent(in), value:: L, Ndeep, diff, tEnd, dt
-    
+
     call simulateChemostatEuler(u, L, Ndeep, diff, tEnd, dt)
   end subroutine f_simulateChemostatEuler
-  
+
   subroutine f_simulateEuler(nGrid, u, L, tEnd, dt) bind(c)
     integer(c_int), intent(in), value:: nGrid
     real(c_double), intent(inout):: u(nGrid)
     real(c_double), intent(in), value:: L, tEnd, dt
-    
+
     call simulateEuler(u, L, tEnd, dt)
   end subroutine f_simulateEuler
-  
+
 end module NUMmodel_wrap
-
-

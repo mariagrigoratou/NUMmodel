@@ -10,7 +10,7 @@ for iGroup = 1:p.nGroups
        semilogx(m, rates.JN(ix)./m, 'b-','linewidth',2)
        semilogx(m, rates.JLreal(ix)./m, 'g-','linewidth',2)
        semilogx(m, rates.JDOC(ix)./m, 'color',[181 100 30]/256,'linewidth',2)
-       semilogx(m, p.pGeneralists.Jmax./m, 'k:')
+       semilogx(m, p.pGeneralists.Jmax, 'k:')
     end
     % Rates for copepods:
     if (p.typeGroups(iGroup)==2)

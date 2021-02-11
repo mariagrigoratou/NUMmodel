@@ -350,9 +350,14 @@ contains
           rates%F(i) = rates%F(i) + theta(i,j)*upositive(j)
        end do
     end do
-    rates%flvl = AF*rates%F / (AF*rates%F + JFmax)
-    rates%JF = rates%flvl * JFmax
-    !
+
+    !select case (typeGroups(iGroup))
+    !case (typeGeneralist)
+      rates%flvl = AF*rates%F / (AF*rates%F + JFmax)
+      rates%JF = rates%flvl * JFmax
+    !case (typeGeneralist_csp)
+      !rates%JF = (JFmax*AF*rates%F)/(AF*rates%F+JFmax);
+    !end select
     ! Calc derivatives of unicellular groups
     !
     gammaN = 1.d0

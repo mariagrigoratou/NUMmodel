@@ -1,3 +1,5 @@
+% clearvars
+% 
 % unloadlibrary(loadNUMmodelLibrary());
 % loadNUMmodelLibrary();
 % 
@@ -20,10 +22,12 @@
 % 
 % rates.dudt
 % dudt
-
+% 
+% figure
+% plotRates(p,rates)
 
 %%
 
 clearvars
 
- baserunChemostat([0.1 1 10 100 1000])
+ baserunChemostat([], 'true')%[0.1 1 10 100 1000])
