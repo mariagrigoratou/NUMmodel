@@ -30,4 +30,4 @@
 
 clearvars
 
- baserunChemostat([], 'true')%[0.1 1 10 100 1000])
+ baserunChemostat([], true)%[0.1 1 10 100 1000])

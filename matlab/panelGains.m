@@ -23,5 +23,4 @@ end
 hold off
 ylim([0 2])
 ylabel('Gains (day^{-1})')
-legend({'Feeding','N','Light','DOC'}, ...
-    'location','eastoutside')
+legend({'Feeding','N','Light','DOC'})

@@ -1,11 +1,11 @@
 module debug
   use globals
   implicit none
-  
+
   private
   integer, parameter:: unitDebug = 6
 
-  
+
   public openDebug, closeDebug, printU, printRates
 contains
 
@@ -21,7 +21,7 @@ subroutine openDebug
   subroutine printRates(m, rates)
     type(typeRates), intent(in):: rates
     real(dp):: m(:)
-    
+
     !call openDebug
     write(unitDebug, *) 'm: ', m
 !1 format(10E1.4)
@@ -31,7 +31,7 @@ subroutine openDebug
     write(unitDebug, *) 'JN/m: ', rates%JN/m
     write(unitDebug, *) 'JL/m: ', rates%JL/m
     write(unitDebug, *) 'JDOC/m: ', rates%JDOC/m
-    
+
     write(unitDebug, *) 'F/m: ', rates%F/m
     write(unitDebug, *) 'JF/m: ', rates%JF/m
     write(unitDebug, *) 'f: ', rates%flvl
@@ -39,7 +39,7 @@ subroutine openDebug
     write(unitDebug, *) 'JLreal/m: ', rates%JLreal/m
     write(unitDebug, *) 'JNtot/m: ', rates%JNtot/m
     write(unitDebug, *) 'JCtot/m: ', rates%JCtot/m
-    
+
    ! write(unitDebug, *) 'JFreal/m: ', rates%JFreal/p%m
     write(unitDebug, *) 'Jtot/m: ', rates%Jtot/m
     write(unitDebug, *) 'mortpred: ', rates%mortpred

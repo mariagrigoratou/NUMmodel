@@ -12,6 +12,6 @@ for iGroup = 1:sim.p.nGroups
 end
 ylim([0.1, 1000])
 
-legend(textLegend,'location','eastoutside')
+legend(textLegend)
 ylabel('Concentrations')
 xlabel('Time (days)')

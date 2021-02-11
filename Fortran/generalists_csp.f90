@@ -31,14 +31,22 @@ module generalists_csp
   real(dp), parameter:: sigma = 1.3d0
   real(dp), parameter:: pvol = 7.6E-7
   real(dp), parameter:: pvol2 = 1.22
+  real(dp), parameter:: pvol3 = 2.96e7
   real(dp), parameter:: pl11 = 0.85
   real(dp), parameter:: pl12 = 0.3
   real(dp), parameter:: pl21 = 8.71
   real(dp), parameter:: pl22 = -0.2
+  real(dp), parameter:: rhomup1 = 0.024
+  real(dp), parameter:: rhomup2 = 1.1
+  real(dp), parameter:: Qmup1 = 0.032
+  real(dp), parameter:: Qmup2 = 0.76
+  real(dp), parameter:: mu_infp1 = 4.7
+  real(dp), parameter:: mu_infp2 = -0.26
 
   real(dp),  dimension(:), allocatable:: AN(:), AL(:), JNmax(:), JLmax(:), Jmax(:), volu(:), JlossPassive(:)
   real(dp),  dimension(:), allocatable:: nu(:), mort(:), mort2(:)
   real(dp),  dimension(:), allocatable:: JN(:), JL(:), Jresp(:), JFreal(:)
+  real(dp),  dimension(:), allocatable:: Vol2(:), rhomu(:),Qmu(:),mu_inf(:),mu_max(:)
   !real(dp):: mort2
 
   public initGeneralists_csp, calcRatesGeneralists_csp, calcDerivativesGeneralists_csp
@@ -62,6 +70,11 @@ contains
     allocate(nu(n))
     allocate(mort(n))
     allocate(mort2(n))
+    allocate(Vol2(n))
+    allocate(rhomu(n))
+    allocate(Qmu(n))
+    allocate(mu_inf(n))
+    allocate(mu_max(n))
 
     allocate(JN(n))
     allocate(JL(n))
@@ -80,10 +93,23 @@ contains
     volu=(this%m/pvol)**pvol2
     JLmax = min(pl11*volu**pl12 , pl21*volu**pl22)*this%m
     nu = c * this%m**(-onethird)
-    Jmax = alphaJ * this%m * (1.d0-nu) ! mugC/day
-    Jresp = 0.2*JLmax !cR*alphaJ*this%m
+    Jmax = 0.d0*this%m! alphaJ * this%m * (1.d0-nu) ! mugC/day
+
+
+    Vol2=pvol3*this%m**pvol2
+    rhomu=rhomup1*Vol2**rhomup2
+    Qmu=Qmup1*Vol2**Qmup2
+    mu_inf=mu_infp1*Vol2**(mu_infp2)
+    mu_max=mu_inf*rhomu/(mu_inf*Qmu + rhomu)
+    mu_max=mu_max + mu_max*0.17
+
+    Jresp = 0.2*mu_max*this%m !cR*alphaJ*this%m
+
     mort = 0.d0 !0*0.005*(Jmax/this%m) * this%m**(-0.25);
-    mort2 = JLmax*0.03/this%m !0.0002*n
+    mort2 = mu_max*0.03/(this%z) !0.0002*n
+
+
+
   end function initGeneralists_csp
 
   subroutine calcRatesGeneralists_csp(this, u, rates, L, N, DOC, gammaN, gammaDOC)
